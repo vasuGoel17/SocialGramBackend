@@ -4,6 +4,7 @@ require("./db/conn");
 const router = require("./routes/router");
 const app = express();
 const cors = require("cors");
+const { json } = require("body-parser");
 
 app.use((req, res, next) => {
   const contentLength = req.headers["content-length"];
@@ -17,6 +18,11 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 const PORT = process.env.PORT || 5000;
+
+app.get("/", (req, res) => {
+  console.log("working fine");
+  res.status(201, json({ message: "goog going" }));
+});
 
 app.use(router);
 
