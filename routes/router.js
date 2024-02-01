@@ -117,8 +117,8 @@ router.post(
         );
         // console.log("saved usercard");
 
-        res.status(201).json({
-          status: 201,
+        res.status(200).json({
+          status: 200,
           storeSignup,
           storeSave,
           storeCommunity,
@@ -161,8 +161,8 @@ router.post("/api/login", async (req, res) => {
         };
         // console.log("result: ", result);
         res
-          .status(201)
-          .json({ status: 201, result, msg: "Successfully authenticated" });
+          .status(200)
+          .json({ status: 200, result, msg: "Successfully authenticated" });
       }
     } else {
       console.log("email not matching");
@@ -181,7 +181,7 @@ router.get("/api/logout", authenticate, async (req, res) => {
     });
     res.clearCookie("usercookie", { path: "/" });
     req.rootuser[0].save();
-    res.status(201).json({ status: 201, message: "good going" });
+    res.status(200).json({ status: 200, message: "good going" });
   } catch (error) {
     res.status(401).json({ status: 401, message: "not good going" });
   }
@@ -191,7 +191,7 @@ router.get("/api/validuser", authenticate, async (req, res) => {
   try {
     // console.log("testing for data: ", req.rootuser[0]);
     const validuserone = await SignUp.findOne({ _id: req.userid });
-    res.status(201).json({ status: 201, validuserone });
+    res.status(200).json({ status: 200, validuserone });
   } catch (error) {
     res.status(401).json({ status: 401, validuserone });
   }
@@ -254,8 +254,8 @@ router.post("/api/addpost", uploadpo.single("post"), async (req, res) => {
     const storeLike = await middleware.createLike(storePost._id);
     const storeComment = await middleware.createComment(storePost._id);
 
-    res.status(201).json({
-      status: 201,
+    res.status(200).json({
+      status: 200,
       storePost,
       storeLike,
       storeComment,
@@ -273,7 +273,7 @@ router.post("/api/getposts", async (req, res) => {
   try {
     const result = await Post.find({ username: username });
 
-    res.status(201).json({ status: 201, result });
+    res.status(200).json({ status: 200, result });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -315,7 +315,7 @@ router.post("/api/deletepost", async (req, res) => {
     if (fs.existsSync(imagePath)) {
       fs.unlinkSync(imagePath);
       // console.log("deleted");
-      return res.status(201).json({ message: "Object deleted successfully" });
+      return res.status(200).json({ message: "Object deleted successfully" });
     } else {
       return res.status(404).json({ message: "Image not found" });
     }
@@ -376,9 +376,9 @@ router.post("/api/deleteCompost", async (req, res) => {
     if (fs.existsSync(imagePath)) {
       fs.unlinkSync(imagePath);
       // console.log("deleted");
-      return res.status(201).json({ message: "Object deleted successfully" });
+      return res.status(200).json({ message: "Object deleted successfully" });
     } else {
-      return res.status(201).json({ message: "Object deleted successfully" });
+      return res.status(200).json({ message: "Object deleted successfully" });
     }
   } catch (error) {
     console.error("Error:", error);
@@ -391,7 +391,7 @@ router.get("/api/getprofiledetails", async (req, res) => {
   // console.log("username: ", username);
   try {
     const result = await UserCard.find({ username: username });
-    res.status(201).json({ status: 201, result });
+    res.status(200).json({ status: 200, result });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -434,7 +434,7 @@ router.post("/api/setProfileBio", async (req, res) => {
     );
     console.log("updated: ", updatedUserCard);
 
-    res.status(201).json({ status: 201 });
+    res.status(200).json({ status: 200 });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -454,7 +454,7 @@ router.post("/api/getProfileBio", async (req, res) => {
         interest: [],
       };
     }
-    res.status(201).json({ status: 201, result });
+    res.status(200).json({ status: 200, result });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -476,8 +476,8 @@ router.get("/api/sepratePost", async (req, res) => {
       const username = result.username;
       const result2 = await SignUp.findOne({ username: username });
       res
-        .status(201)
-        .json({ status: 201, result, result2, likeCount, commentCount });
+        .status(200)
+        .json({ status: 200, result, result2, likeCount, commentCount });
     }
   } catch (error) {
     console.error("Error:");
@@ -496,7 +496,7 @@ router.get("/api/seprateComPost", async (req, res) => {
     if (result) {
       const username = result.comPost[0].username;
       const result2 = await SignUp.findOne({ username: username });
-      res.status(201).json({ status: 201, result, result2 });
+      res.status(200).json({ status: 200, result, result2 });
     }
   } catch (error) {
     console.error("Error:");
@@ -536,7 +536,7 @@ router.post("/api/addcomment", async (req, res) => {
         console.error("Error during upsert:", error);
       });
 
-    res.status(201).json({ status: 201 });
+    res.status(200).json({ status: 200 });
   } catch (err) {
     res.status(404).json(err);
     console.log("catched an error while saving your post");
@@ -581,7 +581,7 @@ router.get("/api/getComments", async (req, res) => {
       .catch((error) => {
         console.error("Error updating document:", error);
       });
-    res.status(201).json({ status: 201, result, rest });
+    res.status(200).json({ status: 200, result, rest });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -598,7 +598,7 @@ router.get("/api/getlikes", async (req, res) => {
     }
     // console.log("l: ", like);
     const likeCount = like[0].usernames.length;
-    res.status(201).json({ status: 201, likeCount });
+    res.status(200).json({ status: 200, likeCount });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -726,7 +726,7 @@ router.put("/api/setSaved", async (req, res) => {
       }
     }
 
-    res.json({ status: 201 });
+    res.json({ status: 200 });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -738,7 +738,7 @@ router.get("/api/getSavedPosts", async (req, res) => {
   try {
     const result = await Save.findOne({ username: username });
     if (result) {
-      res.status(201).json({ status: 201, result });
+      res.status(200).json({ status: 200, result });
     }
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
@@ -750,7 +750,7 @@ router.get("/api/getMyCommunities", async (req, res) => {
   try {
     const result = await Community.findOne({ username: username });
     if (result) {
-      res.status(201).json({ status: 201, result });
+      res.status(200).json({ status: 200, result });
     }
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
@@ -765,7 +765,7 @@ router.get("/api/getPeopleToFollow", async (req, res) => {
     });
 
     // console.log("Usernames:", usernames);
-    res.status(201).json({ status: 201, usernames });
+    res.status(200).json({ status: 200, usernames });
   } catch (error) {
     console.error("Error fetching usernames:", error);
     return [];
@@ -778,7 +778,7 @@ router.get("/api/getPeopleFollowing", async (req, res) => {
     const followingArray = await UserCard.find({ username: username });
     // console.log("sadds", followingArray[0].following);
     const arrayOfNames = followingArray[0].following.map((obj) => obj.name);
-    res.status(201).json({ status: 201, peopleFollow: arrayOfNames });
+    res.status(200).json({ status: 200, peopleFollow: arrayOfNames });
   } catch (error) {
     console.error("Error fetching usernames:", error);
     return [];
@@ -866,7 +866,7 @@ router.get("/api/getuser", async (req, res) => {
   const username = req.query.username;
   try {
     const user = await UserCard.find({ username: username });
-    res.status(201).json({ status: 201, user });
+    res.status(200).json({ status: 200, user });
   } catch (error) {
     console.error("Error fetching usernames:", error);
     return [];
@@ -902,7 +902,7 @@ router.post("/api/updateFollow", async (req, res) => {
       { username: name },
       { $push: { followers: username } }
     );
-    res.status(201).json({ status: 201, result, result1 });
+    res.status(200).json({ status: 200, result, result1 });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -922,7 +922,7 @@ router.post("/api/updateFollower", async (req, res) => {
       { username: name },
       { $pull: { following: { name: username } } }
     );
-    res.status(201).json({ status: 201, result, result1 });
+    res.status(200).json({ status: 200, result, result1 });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -942,7 +942,7 @@ router.post("/api/updateFollowing", async (req, res) => {
       { username: name },
       { $pull: { followers: username } }
     );
-    res.status(201).json({ status: 201, result, result1 });
+    res.status(200).json({ status: 200, result, result1 });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -956,7 +956,7 @@ router.post("/api/CheckFollow", async (req, res) => {
     const user = await UserCard.findOne({ username });
     if (user) {
       const isFollower = user.following.some((item) => item.name === name);
-      res.status(201).json({ status: 201, result: isFollower });
+      res.status(200).json({ status: 200, result: isFollower });
     } else {
       res.status(404).json({ success: false, message: "User not found" });
     }
@@ -1034,7 +1034,7 @@ router.post("/api/updateFollowingOrNot", async (req, res) => {
 router.get("/api/getmembers", async (req, res) => {
   try {
     const result = await Comarr.find({});
-    res.status(201).json({ status: 201, result });
+    res.status(200).json({ status: 200, result });
   } catch (error) {
     console.error("Error fetching usernames:", error);
   }
@@ -1057,7 +1057,7 @@ router.get("/api/getItemForsearch", async (req, res) => {
     const result4 = result3.map((obj) => ({ ...obj, type: "user" }));
     const result = result2.concat(result4);
 
-    res.status(201).json({ status: 201, result });
+    res.status(200).json({ status: 200, result });
   } catch (error) {
     console.error("Error fetching usernames:", error);
   }
@@ -1168,8 +1168,8 @@ router.post(
         }
       });
 
-      res.status(201).json({
-        status: 201,
+      res.status(200).json({
+        status: 200,
         _id: result._id,
       });
     } catch (err) {
@@ -1183,7 +1183,7 @@ router.get("/api/getComPost", async (req, res) => {
   const comName = req.query.comName;
   try {
     const result = await Comarr.findOne({ comName });
-    res.status(201).json({ status: 201, result: result.comPost });
+    res.status(200).json({ status: 200, result: result.comPost });
   } catch (error) {
     console.error("Error fetching usernames:", error);
   }
@@ -1212,7 +1212,7 @@ router.get("/api/getHomePosts", async (req, res) => {
     const comPosts = composts.flatMap((compost) => compost.comPost);
     // console.log("postssss: ", comPosts);
 
-    res.status(201).json({ status: 201, posts: posts, comPosts: comPosts });
+    res.status(200).json({ status: 200, posts: posts, comPosts: comPosts });
   } catch (error) {
     console.error("Error fetching usernames:", error);
   }

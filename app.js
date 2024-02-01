@@ -4,7 +4,6 @@ require("./db/conn");
 const router = require("./routes/router");
 const app = express();
 const cors = require("cors");
-const { json } = require("body-parser");
 
 app.use((req, res, next) => {
   const contentLength = req.headers["content-length"];
@@ -22,7 +21,7 @@ app.use(router);
 
 app.get("/", async (req, res) => {
   console.log("working fine");
-  res.status(201).json({ status: 201, message: "goog going" });
+  res.status(200).json({ status: 200, message: "goog going" });
 });
 
 app.listen(PORT, () => {
