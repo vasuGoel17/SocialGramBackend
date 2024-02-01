@@ -141,12 +141,15 @@ router.post("/api/login", async (req, res) => {
   try {
     console.log("start login process");
     const userValid = await SignUp.findOne({ email: email });
+
     if (userValid) {
+      console.log("a");
       const isMatch = await bcrypt.compare(password, userValid.password);
       if (!isMatch) {
         console.log("something like password not matching");
         res.status(403).json({ error: "Password is incorrect" });
       } else {
+        console.log("b");
         // console.log("coming here");
         const token = await userValid.generateAuthtoken();
         // console.log("token: ", token);
@@ -155,6 +158,7 @@ router.post("/api/login", async (req, res) => {
           httpOnly: true,
         });
 
+        console.log("c");
         const result = {
           userValid,
           token,
